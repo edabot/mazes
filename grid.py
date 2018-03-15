@@ -1,6 +1,7 @@
 from cell import Cell
 import random
 import svgwrite
+from PIL import Image, ImageDraw
 
 class Grid:
     def __init__(self, rows, columns):
@@ -77,7 +78,7 @@ class Grid:
         left_offset = 20
         img_width = cell_size * self.columns
         img_height = cell_size * self.rows
-        dwg = svgwrite.Drawing('maze.svg')
+        dwg = svgwrite.Drawing('maze-' + '10' + '.svg')
 
         for cell in self.each_cell():
             x1 = cell.column * cell_size + top_offset
@@ -99,3 +100,28 @@ class Grid:
             if not cell.linked(cell.south):
                 dwg.add(dwg.line((x1, y2), (x2, y2), stroke=svgwrite.rgb(10, 10, 16, '%')))
         dwg.save()
+
+    def to_png(self, cell_size=20):
+            top_offset = 20
+            left_offset = 20
+            img_width = cell_size * self.columns
+            img_height = cell_size * self.rows
+            im = Image.new('RGB', (640,800),(255,255,255))
+
+            draw = ImageDraw.Draw(im)
+
+            for cell in self.each_cell():
+                x1 = cell.column * cell_size + top_offset
+                y1 = cell.row * cell_size + left_offset
+                x2 = (cell.column + 1) * cell_size + top_offset
+                y2 = (cell.row + 1) * cell_size + left_offset
+
+                if not cell.north:
+                    draw.line((x1, y1, x2, y1), (0,0,0))
+                if not cell.west:
+                    draw.line((x1, y1, x1, y2), (0,0,0))
+                if not cell.linked(cell.east):
+                    draw.line((x2, y1, x2, y2), (0,0,0))
+                if not cell.linked(cell.south):
+                    draw.line((x1, y2, x2, y2), (0,0,0))
+            im.save("maze.png", "PNG")

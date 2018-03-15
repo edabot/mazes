@@ -6,3 +6,4 @@ HuntAndKill.mutate(grid)
 
 grid.to_string()
 grid.to_svg()
+grid.to_png()
