@@ -1,10 +1,12 @@
 from colored_grid import ColoredGrid
-from binary_tree import BinaryTree
+from sidewinder import Sidewinder
 
-grid = ColoredGrid(35,35)
-BinaryTree.mutate(grid)
+height, width = [50, 50]
 
-start = grid.grid[12][12]
+grid = ColoredGrid(height,width)
+Sidewinder.mutate(grid)
+
+start = grid.grid[int(height/2)][int(width/2)]
 
 grid.distances = start.distances()
 
