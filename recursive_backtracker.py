@@ -1,7 +1,10 @@
 import random
+import imageio
 
 class RecursiveBacktracker:
-    def mutate(grid):
+    def mutate(grid, animation = False):
+        frame = 0
+        filenames = []
         stack = []
         stack.append(grid.random_cell())
 
@@ -15,4 +18,12 @@ class RecursiveBacktracker:
                 neighbor = random.choice(neighbors)
                 current.link(neighbor)
                 stack.append(neighbor)
-        return grid
+                if animation:
+                    frame += 1
+                    grid.to_png(20, str(frame))
+                    filenames.append("./exports/maze"+str(frame)+".png")
+        if animation:
+            images = []
+            for filename in filenames:
+                images.append(imageio.imread(filename))
+            imageio.mimsave('recursive_backtracker.gif', images)

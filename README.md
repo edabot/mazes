@@ -12,7 +12,7 @@ python3 binary_tree_demo.py
 
 ![binary_tree]
 
-[binary_tree]: ./images/binary_tree.png
+[binary_tree]: ./images/binary_tree.gif
 
 Sidewinder
 
@@ -22,7 +22,7 @@ python3 sidewinder_demo.py
 
 ![sidewinder]
 
-[sidewinder]: ./images/sidewinder.png
+[sidewinder]: ./images/sidewinder.gif
 
 Hunt and Kill
 
@@ -42,7 +42,7 @@ python3 recursive_backtracker_demo.py
 
 ![recursive_backtracker]
 
-[recursive_backtracker]: ./images/recursive_backtracker.png
+[recursive_backtracker]: ./images/recursive_backtracker.gif
 
 Colored grid to show distances
 

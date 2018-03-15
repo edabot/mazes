@@ -1,8 +1,11 @@
 import random
+import imageio
 
 class Sidewinder:
 
-    def mutate(grid):
+    def mutate(grid, animation = False):
+        filenames = []
+        frame = 0
         for row in grid.grid:
             run = []
             for cell in row:
@@ -19,3 +22,12 @@ class Sidewinder:
                     run = []
                 else:
                     cell.link(cell.east)
+                    if animation:
+                        frame += 1
+                        grid.to_png(20, str(frame))
+                        filenames.append("./exports/maze"+str(frame)+".png")
+        if animation:
+            images = []
+            for filename in filenames:
+                images.append(imageio.imread(filename))
+            imageio.mimsave('movie.gif', images)
