@@ -10,7 +10,7 @@ class DistanceGrid(Grid):
         self.distances = {}
 
     def contents_of(self, cell):
-        if self.distances:
+        if self.distances.get(cell) is not None:
             return base36.dumps(self.distances.get(cell))
         else:
-            super
+            return " "
