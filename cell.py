@@ -1,5 +1,5 @@
 import svgwrite
-import distances
+from distances import Distances
 """dwg = svgwrite.Drawing('test.svg', profile='tiny')
 dwg.add(dwg.line((0, 0), (10, 0), stroke=svgwrite.rgb(10, 10, 16, '%')))
 dwg.add(dwg.text('Test', insert=(0, 20), fill='red'))
@@ -40,7 +40,7 @@ class Cell:
         return list
 
     def distances(self):
-        distances = distances.Distances()
+        distances = Distances(self)
         frontier = [self]
 
         while len(frontier) > 0:
@@ -48,8 +48,9 @@ class Cell:
 
             for cell in frontier:
                 for link in cell.get_links():
-                    if not distances[link]:
-                        distances[link] = distances[cell] + 1
+                    if not link in distances.cells:
+                        distances.cells[link] = distances.cells[cell] + 1
                         new_frontier.append(link)
 
             frontier = new_frontier
+        return distances

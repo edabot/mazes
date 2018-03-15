@@ -1,4 +1,4 @@
-import cell
+from cell import Cell
 import random
 import svgwrite
 
@@ -13,7 +13,7 @@ class Grid:
         for row in range(self.rows):
             row_array = []
             for column in range(self.columns):
-                row_array.append(cell.Cell(row, column))
+                row_array.append(Cell(row, column))
             grid_array.append(row_array)
         return grid_array
 

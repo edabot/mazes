@@ -4,7 +4,7 @@ class Distances:
         self.cells = {}
         self.cells[root] = 0
 
-    def cells(self):
+    def get_cells(self):
         return self.cells.keys()
 
     def get(self, cell):
