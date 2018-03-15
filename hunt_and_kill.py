@@ -2,12 +2,6 @@ import random
 
 class HuntAndKill:
 
-    def has_link(cell):
-        return len(cell.get_links()) > 0
-
-    def has_no_link(cell):
-        len(cell.get_links()) == 0
-
     def mutate(grid):
         current = grid.random_cell()
 

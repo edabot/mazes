@@ -1,10 +1,11 @@
 from colored_grid import ColoredGrid
 from sidewinder import Sidewinder
+from hunt_and_kill import HuntAndKill
 
 height, width = [50, 50]
 
 grid = ColoredGrid(height,width)
-Sidewinder.mutate(grid)
+HuntAndKill.mutate(grid)
 
 start = grid.grid[int(height/2)][int(width/2)]
 
