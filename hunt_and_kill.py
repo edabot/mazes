@@ -1,6 +1,5 @@
 import random
-import imageio
-import os
+from make_animation import MakeAnimation
 
 class HuntAndKill:
 
@@ -36,9 +35,4 @@ class HuntAndKill:
                             filenames.append("./exports/maze"+str(index)+".png")
                         break
         if animation:
-            images = []
-            for filename in filenames:
-                images.append(imageio.imread(filename))
-            imageio.mimsave('./exports/hunt_and_kill.gif', images)
-            for filename in filenames:
-                os.remove(filename)
+            MakeAnimation(filenames, 'hunt_and_kill.gif')

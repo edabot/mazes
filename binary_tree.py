@@ -1,6 +1,5 @@
 import random
-import imageio
-import os
+from make_animation import MakeAnimation
 
 class BinaryTree:
 
@@ -21,9 +20,4 @@ class BinaryTree:
                     grid.to_png(20, str(frame))
                     filenames.append("./exports/maze"+str(frame)+".png")
         if animation:
-            images = []
-            for filename in filenames:
-                images.append(imageio.imread(filename))
-            imageio.mimsave('./exports/binary_tree.gif', images)
-            for filename in filenames:
-                os.remove(filename)
+            MakeAnimation(filenames, 'binary_tree.gif')

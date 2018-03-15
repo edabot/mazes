@@ -1,6 +1,5 @@
 import random
-import imageio
-import os
+from make_animation import MakeAnimation
 
 class Sidewinder:
 
@@ -28,9 +27,4 @@ class Sidewinder:
                         grid.to_png(20, str(frame))
                         filenames.append("./exports/maze"+str(frame)+".png")
         if animation:
-            images = []
-            for filename in filenames:
-                images.append(imageio.imread(filename))
-            imageio.mimsave('./exports/sidewinder.gif', images)
-            for filename in filenames:
-                os.remove(filename)
+            MakeAnimation(filenames, 'sidewinder.gif')
