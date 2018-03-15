@@ -4,4 +4,5 @@ from grid import Grid
 grid = Grid(20,20)
 RecursiveBacktracker.mutate(grid)
 
-grid.to_grid()
+grid.to_string()
+grid.to_svg()

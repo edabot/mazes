@@ -13,4 +13,4 @@ grid.distances = start.distances()
 
 grid.maximum = grid.distances.max()[1]
 
-grid.to_grid()
+grid.to_svg()

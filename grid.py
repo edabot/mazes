@@ -71,7 +71,7 @@ class Grid:
             print(top)
             print(bottom)
 
-    def to_grid(self, cell_size = 10):
+    def to_svg(self, cell_size = 10):
 
         top_offset = 20
         left_offset = 20

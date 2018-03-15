@@ -16,4 +16,4 @@ goal, distance = new_distances.max()
 grid.distances = new_distances.path_to(goal)
 
 grid.to_string()
-grid.to_grid()
+grid.to_svg()
