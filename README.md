@@ -20,11 +20,19 @@ Sidewinder
 python3 sidewinder_demo.py
 ```
 
+![sidewinder]
+
+[sidewinder]: ./images/sidewinder.png
+
 Hunt and Kill
 
 ```
 python3 hunt_and_kill_demo.py
 ```
+
+![hunt_and_kill]
+
+[hunt_and_kill]: ./images/hunt_and_kill.png
 
 Recursive Backtracker
 
@@ -32,8 +40,16 @@ Recursive Backtracker
 python3 recursive_backtracker_demo.py
 ```
 
+![recursive_backtracker]
+
+[recursive_backtracker]: ./images/recursive_backtracker.png
+
 Colored grid to show distances
 
 ```
 python3 coloring.py
 ```
+
+![coloring]
+
+[coloring]: ./images/coloring.png
