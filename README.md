@@ -1,6 +1,8 @@
 # mazes
 
-A group of maze generators based on the book Mazes for Programmers: Code Your Own Twisty Passages, by James Buck.
+A group of maze generators based on the book Mazes for Programmers: Code Your Own Twisty Passages, by James Buck. Mazes are displayed in ASCII and output as svg files.
+
+These algorithms use `random` and `svgwrite`
 
 Binary Tree
 
