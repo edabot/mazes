@@ -52,6 +52,9 @@ class Grid:
     def contents_of(self, cell):
         return " "
 
+    def background_color_for(self, cell):
+        return None
+
     def to_string(self):
         print("+" + "---+" * self.columns)
         for row in self.grid:
@@ -83,6 +86,8 @@ class Grid:
             y2 = (cell.row + 1) * cell_size + left_offset
             dwg.add(dwg.text(self.contents_of(cell), insert=(x1 + 5 ,y1 + cell_size - 5)))
 
+            if self.background_color_for(cell) is not None:
+                dwg.add(dwg.rect(insert=(x1, y1), size=(cell_size, cell_size), rx=None, ry=None, fill=self.background_color_for(cell)))
 
             if not cell.north:
                 dwg.add(dwg.line((x1, y1), (x2, y1), stroke=svgwrite.rgb(10, 10, 16, '%')))
