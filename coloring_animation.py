@@ -5,7 +5,7 @@ from hunt_and_kill import HuntAndKill
 height, width = [30, 30]
 
 grid = ColoredGrid(height,width)
-HuntAndKill.mutate(grid, True, 10, 30)
+HuntAndKill.mutate(grid, True, 5, 30)
 
 start = grid.grid[int(height/2)][int(width/2)]
 
