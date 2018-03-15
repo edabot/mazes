@@ -81,6 +81,8 @@ class Grid:
             y1 = cell.row * cell_size + left_offset
             x2 = (cell.column + 1) * cell_size + top_offset
             y2 = (cell.row + 1) * cell_size + left_offset
+            dwg.add(dwg.text(self.contents_of(cell), insert=(x1 + 5 ,y1 + cell_size - 5)))
+
 
             if not cell.north:
                 dwg.add(dwg.line((x1, y1), (x2, y1), stroke=svgwrite.rgb(10, 10, 16, '%')))
