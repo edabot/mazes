@@ -1,5 +1,6 @@
 import random
 import imageio
+import os
 
 class Sidewinder:
 
@@ -30,4 +31,6 @@ class Sidewinder:
             images = []
             for filename in filenames:
                 images.append(imageio.imread(filename))
-            imageio.mimsave('movie.gif', images)
+            imageio.mimsave('./exports/sidewinder.gif', images)
+            for filename in filenames:
+                os.remove(filename)

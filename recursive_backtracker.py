@@ -1,5 +1,6 @@
 import random
 import imageio
+import os
 
 class RecursiveBacktracker:
     def mutate(grid, animation = False):
@@ -26,4 +27,6 @@ class RecursiveBacktracker:
             images = []
             for filename in filenames:
                 images.append(imageio.imread(filename))
-            imageio.mimsave('recursive_backtracker.gif', images)
+            imageio.mimsave('./exports/recursive_backtracker.gif', images)
+            for filename in filenames:
+                os.remove(filename)

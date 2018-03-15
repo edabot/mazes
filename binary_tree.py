@@ -1,5 +1,6 @@
 import random
 import imageio
+import os
 
 class BinaryTree:
 
@@ -23,4 +24,6 @@ class BinaryTree:
             images = []
             for filename in filenames:
                 images.append(imageio.imread(filename))
-            imageio.mimsave('movie.gif', images)
+            imageio.mimsave('./exports/binary_tree.gif', images)
+            for filename in filenames:
+                os.remove(filename)

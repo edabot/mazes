@@ -1,5 +1,6 @@
 import random
 import imageio
+import os
 
 class HuntAndKill:
 
@@ -38,4 +39,6 @@ class HuntAndKill:
             images = []
             for filename in filenames:
                 images.append(imageio.imread(filename))
-            imageio.mimsave('hunt_and_kill.gif', images)
+            imageio.mimsave('./exports/hunt_and_kill.gif', images)
+            for filename in filenames:
+                os.remove(filename)
