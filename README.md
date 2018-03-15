@@ -27,3 +27,9 @@ Recursive Backtracker
 ```
 python3 recursive_backtracker_demo.py
 ```
+
+Colored grid to show distances
+
+```
+python3 coloring.py
+```
