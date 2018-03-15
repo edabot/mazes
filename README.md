@@ -10,6 +10,10 @@ Binary Tree
 python3 binary_tree_demo.py
 ```
 
+![binary_tree]
+
+[binary_tree]: ./images/binary_tree.png
+
 Sidewinder
 
 ```
