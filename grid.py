@@ -116,8 +116,12 @@ class Grid:
                 y1 = cell.row * cell_size + left_offset
                 x2 = (cell.column + 1) * cell_size + top_offset
                 y2 = (cell.row + 1) * cell_size + left_offset
+                color = "#fff"
                 if len(cell.get_links()) > 0:
-                    draw.rectangle((x1 + 1, y1+1 , x2-1, y2-1), fill="#fff")
+                    if self.background_color_for(cell) is not None:
+                        color=self.background_color_for(cell)
+
+                    draw.rectangle((x1 + 1, y1+1 , x2-1, y2-1), fill=color)
                 if not cell.north:
                     draw.line((x1, y1, x2, y1), (0,0,0))
                 if not cell.west:
@@ -125,9 +129,9 @@ class Grid:
                 if not cell.linked(cell.east):
                     draw.line((x2, y1, x2, y2), (0,0,0))
                 elif cell.east:
-                    draw.line((x2, y1 + 1, x2, y2 -1), (255,255,255))
+                    draw.line((x2, y1 + 1, x2, y2 -1), fill=color)
                 if not cell.linked(cell.south):
                     draw.line((x1, y2, x2, y2), (0,0,0))
                 elif cell.south:
-                    draw.line((x1 + 1, y2, x2 - 1, y2), (255,255,255))
+                    draw.line((x1 + 1, y2, x2 - 1, y2), fill=color)
             im.save("./exports/maze"+index+".png", "PNG")

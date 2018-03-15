@@ -52,4 +52,4 @@ python3 coloring.py
 
 ![coloring]
 
-[coloring]: ./images/coloring.png
+[coloring]: ./images/colored_and_animated.gif

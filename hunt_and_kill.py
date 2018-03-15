@@ -3,8 +3,8 @@ from make_animation import MakeAnimation
 
 class HuntAndKill:
 
-    def mutate(grid, animation = False):
-        current = grid.random_cell()
+    def mutate(grid, animation = False, cell_size=20, fps=10):
+        start = current = grid.random_cell()
         index = 0
         filenames = []
 
@@ -17,7 +17,9 @@ class HuntAndKill:
                 current = neighbor
                 index += 1
                 if animation:
-                    grid.to_png(20, str(index))
+                    grid.distances = start.distances()
+                    grid.maximum = grid.distances.max()[1]
+                    grid.to_png(cell_size, str(index))
                     filenames.append("./exports/maze"+str(index)+".png")
             else:
                 current = None
@@ -31,8 +33,10 @@ class HuntAndKill:
                         current.link(neighbor)
                         index += 1
                         if animation:
-                            grid.to_png(20, str(index))
+                            grid.distances = start.distances()
+                            grid.maximum = grid.distances.max()[1]
+                            grid.to_png(cell_size, str(index))
                             filenames.append("./exports/maze"+str(index)+".png")
                         break
         if animation:
-            MakeAnimation(filenames, 'hunt_and_kill.gif')
+            MakeAnimation(filenames, 'hunt_and_kill.gif', fps)
