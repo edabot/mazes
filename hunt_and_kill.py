@@ -38,4 +38,4 @@ class HuntAndKill:
             images = []
             for filename in filenames:
                 images.append(imageio.imread(filename))
-            imageio.mimsave('movie.gif', images)
+            imageio.mimsave('hunt_and_kill.gif', images)
