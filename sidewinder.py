@@ -18,7 +18,12 @@ class Sidewinder:
 
                 if should_close_out:
                     member = random.choice(run)
-                    if member.north: member.link(member.north)
+                    if member.north:
+                        member.link(member.north)
+                        if animation:
+                            frame += 1
+                            grid.to_png(20, str(frame))
+                            filenames.append("./exports/maze"+str(frame)+".png")
                     run = []
                 else:
                     cell.link(cell.east)
