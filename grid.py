@@ -78,7 +78,7 @@ class Grid:
         left_offset = 20
         img_width = cell_size * self.columns
         img_height = cell_size * self.rows
-        dwg = svgwrite.Drawing('maze-' + '10' + '.svg')
+        dwg = svgwrite.Drawing('./exports/maze.svg')
 
         for cell in self.each_cell():
             x1 = cell.column * cell_size + top_offset
@@ -101,27 +101,33 @@ class Grid:
                 dwg.add(dwg.line((x1, y2), (x2, y2), stroke=svgwrite.rgb(10, 10, 16, '%')))
         dwg.save()
 
-    def to_png(self, cell_size=20):
+    def to_png(self, cell_size=20, index = "0"):
             top_offset = 20
             left_offset = 20
             img_width = cell_size * self.columns
             img_height = cell_size * self.rows
-            im = Image.new('RGB', (640,800),(255,255,255))
+            im = Image.new('RGB', (img_width + 2 * left_offset, img_height + 2* top_offset),(255,255,255))
 
             draw = ImageDraw.Draw(im)
-
+            draw.rectangle((left_offset, top_offset, left_offset + img_width, top_offset + img_height), fill="#f0f0f0")
             for cell in self.each_cell():
+
                 x1 = cell.column * cell_size + top_offset
                 y1 = cell.row * cell_size + left_offset
                 x2 = (cell.column + 1) * cell_size + top_offset
                 y2 = (cell.row + 1) * cell_size + left_offset
-
+                if len(cell.get_links()) > 0:
+                    draw.rectangle((x1 + 1, y1+1 , x2-1, y2-1), fill="#fff")
                 if not cell.north:
                     draw.line((x1, y1, x2, y1), (0,0,0))
                 if not cell.west:
                     draw.line((x1, y1, x1, y2), (0,0,0))
                 if not cell.linked(cell.east):
                     draw.line((x2, y1, x2, y2), (0,0,0))
+                elif cell.east:
+                    draw.line((x2, y1 + 1, x2, y2 -1), (255,255,255))
                 if not cell.linked(cell.south):
                     draw.line((x1, y2, x2, y2), (0,0,0))
-            im.save("maze.png", "PNG")
+                elif cell.south:
+                    draw.line((x1 + 1, y2, x2 - 1, y2), (255,255,255))
+            im.save("./exports/maze"+index+".png", "PNG")

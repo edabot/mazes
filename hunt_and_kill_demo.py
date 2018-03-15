@@ -1,7 +1,7 @@
 from grid import Grid
 from hunt_and_kill import HuntAndKill
 
-grid = Grid(20,20)
+grid = Grid(10,10)
 HuntAndKill.mutate(grid)
 
 grid.to_string()

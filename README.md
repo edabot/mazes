@@ -32,7 +32,7 @@ python3 hunt_and_kill_demo.py
 
 ![hunt_and_kill]
 
-[hunt_and_kill]: ./images/hunt_and_kill.png
+[hunt_and_kill]: ./images/hunt_and_kill.gif
 
 Recursive Backtracker
 
