@@ -4,7 +4,7 @@ A group of maze generators based on the book Mazes for Programmers: Code Your Ow
 
 These algorithms use `random` and `svgwrite`
 
-Binary Tree
+###Binary Tree
 
 ```
 python3 binary_tree_demo.py
@@ -14,7 +14,7 @@ python3 binary_tree_demo.py
 
 [binary_tree]: ./images/binary_tree.gif
 
-Sidewinder
+###Sidewinder
 
 ```
 python3 sidewinder_demo.py
@@ -24,7 +24,7 @@ python3 sidewinder_demo.py
 
 [sidewinder]: ./images/sidewinder.gif
 
-Hunt and Kill
+###Hunt and Kill
 
 ```
 python3 hunt_and_kill_demo.py
@@ -34,7 +34,7 @@ python3 hunt_and_kill_demo.py
 
 [hunt_and_kill]: ./images/hunt_and_kill.gif
 
-Recursive Backtracker
+###Recursive Backtracker
 
 ```
 python3 recursive_backtracker_demo.py
@@ -44,7 +44,7 @@ python3 recursive_backtracker_demo.py
 
 [recursive_backtracker]: ./images/recursive_backtracker.gif
 
-Colored grid to show distances
+###Colored grid to show distances
 
 ```
 python3 coloring.py
@@ -53,3 +53,10 @@ python3 coloring.py
 ![coloring]
 
 [coloring]: ./images/animated_coloring.gif
+###Circle Maze
+```
+python3 circle_maze.py
+```
+![polar_maze]
+
+[polar_maze]: ./images/polar_maze.png

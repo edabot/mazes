@@ -1,6 +1,7 @@
 from grid import Grid
 from polar_cell import PolarCell
 import math
+import random
 from PIL import Image, ImageDraw
 
 class PolarGrid(Grid):
@@ -77,7 +78,7 @@ class PolarGrid(Grid):
             dy += int(outer_radius * math.sin(theta_cw))
 
             if not cell.linked(cell.inward):
-                draw.arc((center - inner_radius, center - inner_radius, center + inner_radius, center + inner_radius), theta_cw, theta_ccw, fill=wall)
+                draw.arc((center - inner_radius, center - inner_radius, center + inner_radius, center + inner_radius), math.degrees(theta_ccw), math.degrees(theta_cw), fill=wall)
             if not cell.linked(cell.cw):
                 draw.line((cx, cy, dx, dy), fill=wall)
         draw.ellipse((margin,margin,img_size + margin, img_size + margin), outline=wall)
