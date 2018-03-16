@@ -59,4 +59,4 @@ python3 circle_maze.py
 ```
 ![polar_maze]
 
-[polar_maze]: ./images/polar_maze.png
+[polar_maze]: ./images/polar_maze.gif

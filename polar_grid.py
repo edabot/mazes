@@ -82,4 +82,4 @@ class PolarGrid(Grid):
             if not cell.linked(cell.cw):
                 draw.line((cx, cy, dx, dy), fill=wall)
         draw.ellipse((margin,margin,img_size + margin, img_size + margin), outline=wall)
-        im.save("./exports/polar_maze"+index+".png", "PNG")
+        im.save("./exports/maze"+index+".png", "PNG")
