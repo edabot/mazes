@@ -1,5 +1,5 @@
 from polar_grid import PolarGrid
 
-grid = PolarGrid(8,8)
+grid = PolarGrid(20)
 
 grid.to_png()
