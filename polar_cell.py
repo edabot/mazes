@@ -1,6 +1,5 @@
 from cell import Cell
 
-
 class PolarCell(Cell):
     def __init__(self, row, column):
         Cell.__init__(self, row, column)

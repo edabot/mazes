@@ -3,6 +3,12 @@ from polar_cell import PolarCell
 import math
 import random
 from PIL import Image, ImageDraw
+import svgwrite
+
+class Point:
+    def __init__(self,x_init,y_init):
+        self.x = x_init
+        self.y = y_init
 
 class PolarGrid(Grid):
 
@@ -22,7 +28,6 @@ class PolarGrid(Grid):
             previous_count = len(rows[row - 1])
             estimated_cell_width = circumference / previous_count
             ratio = int(estimated_cell_width / row_height)
-
             cells = previous_count * ratio
             for col in range(cells):
                 rows[row].append(PolarCell(row, col))
@@ -45,6 +50,9 @@ class PolarGrid(Grid):
     def random_cell(self):
         row = random.choice(self.grid)
         return random.choice(row)
+
+    def center_cell(self):
+        return self.grid[0][0]
 
     def to_png(self, cell_size=30, index = "0"):
         img_size = 2 * self.rows * cell_size
@@ -83,3 +91,85 @@ class PolarGrid(Grid):
                 draw.line((cx, cy, dx, dy), fill=wall)
         draw.ellipse((margin,margin,img_size + margin, img_size + margin), outline=wall)
         im.save("./exports/maze"+index+".png", "PNG")
+
+    def to_svg(self, cell_size = 10):
+
+        img_size = 2 * self.rows * cell_size
+        margin = 10
+        center = img_size / 2 + margin
+        dwg = svgwrite.Drawing('./exports/polarmaze.svg')
+
+        for cell in self.each_cell():
+            if cell.row == 0: continue
+
+            theta = 2 * math.pi / len(self.grid[cell.row])
+            inner_radius = cell.row * cell_size
+            center_radius_inner = (cell.row - .5) * cell_size
+            center_radius = (cell.row + .5) * cell_size
+            outer_radius = inner_radius + cell_size
+            theta_ccw = cell.column * theta
+            theta_cw = theta_ccw + theta
+            theta_center = theta_ccw + (theta / 2)
+            theta_z = theta_cw + (theta / 2)
+            theta_w = theta_center - theta / 4
+            theta_y = theta_center + theta / 4
+
+# The four corners of a cell are abcd
+# 
+#   center
+#      v
+#    c   a
+#  z  yxw
+#    d   b
+
+            a_coord = polarToRect(center, inner_radius, theta_ccw)
+            c_coord = polarToRect(center, inner_radius, theta_cw)
+            d_coord = polarToRect(center, outer_radius, theta_cw)
+            v_coord = polarToRect(center, center_radius_inner, theta_center)
+            w_coord = polarToRect(center, center_radius, theta_w)
+            x_coord = polarToRect(center, center_radius, theta_center)
+            y_coord = polarToRect(center, center_radius, theta_y)
+            z_coord = polarToRect(center, center_radius, theta_z)
+
+            if not cell.linked(cell.inward):
+                addArc(dwg, (c_coord.x, c_coord.y), (a_coord.x, a_coord.y), inner_radius, 'black')
+            if cell.linked(cell.inward):
+                dwg.add(dwg.line((v_coord.x, v_coord.y), (x_coord.x, x_coord.y), stroke="red"))
+            if not cell.linked(cell.cw):
+                dwg.add(dwg.line((c_coord.x, c_coord.y), (d_coord.x, d_coord.y), stroke=svgwrite.rgb(10, 10, 16, '%')))
+            if cell.linked(cell.cw):
+                addArc(dwg, (z_coord.x, z_coord.y), (x_coord.x, x_coord.y), center_radius, 'red')
+            if len(cell.outward) == 2:
+                if cell.outward[0].linked(cell):
+                    addArc(dwg, (x_coord.x, x_coord.y), (w_coord.x, w_coord.y), center_radius, 'red')
+                if cell.outward[1].linked(cell):
+                    addArc(dwg, (y_coord.x, y_coord.y), (x_coord.x, x_coord.y), center_radius, 'red')
+
+        dwg.add(dwg.circle(center=(center, center), r=(self.rows * cell_size), stroke=svgwrite.rgb(10, 10, 16, '%'), fill='none'))
+        dwg.save()
+
+def addArc(dwg, p0, p1, radius, color):
+    """ Adds an arc that bulges to the right as it moves from p0 to p1 """
+    # https://stackoverflow.com/questions/25019441/arc-pie-cut-in-svgwrite
+    args = {'x0':p0[0], 
+        'y0':p0[1], 
+        'xradius':radius, 
+        'yradius':radius, 
+        'ellipseRotation':0, #has no effect for circles
+        'x1':(p1[0]-p0[0]), 
+        'y1':(p1[1]-p0[1])}
+    dwg.add(dwg.path(d="M %(x0)f,%(y0)f a %(xradius)f,%(yradius)f %(ellipseRotation)f 0,0 %(x1)f,%(y1)f"%args,
+        fill="none", 
+        stroke=color, stroke_width=1
+    ))
+
+def polarToRect(center, r, angle):
+    result = Point(center + r * math.cos(angle), center + r * math.sin(angle))
+    return result
+
+def showCell(dwg, grid, cell, cell_size, center):
+    radius = (cell.row + .5) * cell_size
+    theta = 2 * math.pi / len(grid[cell.row])
+    angle = (cell.column + .5) * theta
+    coords = polarToRect(center, radius, angle)
+    dwg.add(dwg.circle(center=(coords.x, coords.y), r=(cell_size * .25), stroke=svgwrite.rgb(10, 10, 16, '%'), fill='red'))

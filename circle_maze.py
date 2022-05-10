@@ -1,7 +1,6 @@
 from polar_grid import PolarGrid
-from recursive_backtracker import RecursiveBacktracker
+from recursive_backtracker import RecursiveBacktrackerPolar
 
-grid = PolarGrid(8)
-RecursiveBacktracker.mutate(grid, True)
-
-grid.to_png()
+grid = PolarGrid(10)
+RecursiveBacktrackerPolar.mutate(grid)
+grid.to_svg()

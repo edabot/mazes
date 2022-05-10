@@ -8,6 +8,8 @@ class Grid:
         self.rows, self.columns = rows, columns
         self.grid = self.prepare_grid()
         self.configure_cells()
+        self.end = []
+        self.path = []
 
     def prepare_grid(self):
         grid_array = []
@@ -39,7 +41,6 @@ class Grid:
         return self.rows * self.columns
 
     def each_row(self):
-
         for row in self.grid:
             yield row
 
