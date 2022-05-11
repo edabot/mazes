@@ -1,3 +1,4 @@
+from unittest import skip
 from grid import Grid
 from polar_cell import PolarCell
 import math
@@ -52,7 +53,7 @@ class PolarGrid(Grid):
         return random.choice(row)
 
     def center_cell(self):
-        return self.grid[0][0]
+        return self.grid[0][0]     
 
     def to_png(self, cell_size=30, index = "0"):
         img_size = 2 * self.rows * cell_size
@@ -148,6 +149,98 @@ class PolarGrid(Grid):
         dwg.add(dwg.circle(center=(center, center), r=(self.rows * cell_size), stroke=svgwrite.rgb(10, 10, 16, '%'), fill='none'))
         dwg.save()
 
+
+    def to_svg_contour(self, cell_size = 10, with_distance = False):
+
+        img_size = 2 * self.rows * cell_size
+        margin = 10
+        center = img_size / 2 + margin
+        insert = ("", "_distances")[with_distance]
+        if with_distance:
+            dwg = svgwrite.Drawing('./exports/polarmaze_distance.svg')
+        else:
+            dwg = svgwrite.Drawing('./exports/polarmaze.svg')
+
+        for cell in self.each_cell():
+            if cell.row == 0: continue
+
+            theta = 2 * math.pi / len(self.grid[cell.row])
+
+            inner_radius = cell.row * cell_size
+            center_radius = inner_radius + cell_size / 2
+            outer_radius = inner_radius + cell_size
+
+            theta_ccw = cell.column * theta
+            theta_q = theta_ccw + theta / 4
+            theta_center = theta_ccw + (theta / 2)
+            theta_s = theta_ccw + (3 * theta / 4)
+            theta_cw = theta_ccw + theta
+
+# The polar cell points
+# o - origin
+# abcd - edges
+# vw -      
+#
+#    + a +
+#    dsoqc
+#    +tbr+
+#
+
+            a_coord = polarToRect(center, inner_radius, theta_center)
+            o_coord = polarToRect(center, center_radius, theta_center)
+            b_coord = polarToRect(center, outer_radius, theta_center)
+
+            c_coord = polarToRect(center, center_radius, theta_ccw)
+            d_coord = polarToRect(center, center_radius, theta_cw)
+
+            q_coord = polarToRect(center, center_radius, theta_q)
+            r_coord = polarToRect(center, outer_radius, theta_q)
+            s_coord = polarToRect(center, center_radius, theta_s)
+            t_coord = polarToRect(center, outer_radius, theta_s)
+
+            if with_distance:
+                percent = (cell.distance % 200) / 2
+                color = svgwrite.rgb(percent, 10, 10, '%')
+                if cell.distance % 600 > 200:
+                    color = svgwrite.rgb(10, percent, 10, '%')
+                if cell.distance % 600 > 400:
+                    color = svgwrite.rgb(10, 10, percent, '%')
+                dwg.add(dwg.text(cell.distance, insert=(o_coord.x, o_coord.y), font_size='5px', fill=color ))
+                
+            if has_corner(cell):
+                if cell.linked(cell.inward) and cell.linked(cell.ccw):
+                    addArc(dwg, (a_coord.x, a_coord.y), (c_coord.x, c_coord.y), cell_size / 1.4, 'black')
+                if len(cell.outward) == 1 and cell.linked(cell.outward[0]) and cell.linked(cell.ccw):
+                    addArc(dwg, (c_coord.x, c_coord.y), (b_coord.x, b_coord.y), cell_size / 1.4, 'black')
+                if cell.linked(cell.inward) and cell.linked(cell.cw):
+                    addArc(dwg, (d_coord.x, d_coord.y), (a_coord.x, a_coord.y), cell_size / 1.4, 'black')
+                if len(cell.outward) == 1 and cell.linked(cell.outward[0]) and cell.linked(cell.cw):
+                    addArc(dwg, (b_coord.x, b_coord.y), (d_coord.x, d_coord.y), cell_size / 1.4, 'black')
+            else:
+                if cell.linked(cell.inward):
+                    if cell.distance == 1: 
+                        dwg.add(dwg.line((o_coord.x, o_coord.y), (center, center), stroke="black"))
+                    else:
+                        dwg.add(dwg.line((o_coord.x, o_coord.y), (a_coord.x, a_coord.y), stroke="black"))
+                if cell.linked(cell.cw):
+                    addArc(dwg, (d_coord.x, d_coord.y), (o_coord.x, o_coord.y), center_radius, 'black')
+                if cell.linked(cell.ccw):
+                    addArc(dwg, (o_coord.x, o_coord.y), (c_coord.x, c_coord.y), center_radius, 'black')
+                if len(cell.outward) == 1:
+                    if cell.outward[0].linked(cell):
+                        dwg.add(dwg.line((o_coord.x, o_coord.y), (b_coord.x, b_coord.y), stroke="black"))
+                if len(cell.outward) == 2:
+                    if cell.outward[0].linked(cell):
+                        addArc(dwg, (o_coord.x, o_coord.y), (q_coord.x, q_coord.y), center_radius, 'black')
+                        dwg.add(dwg.line((q_coord.x, q_coord.y), (r_coord.x, r_coord.y), stroke="black"))
+                    if cell.outward[1].linked(cell):
+                        addArc(dwg, (s_coord.x, s_coord.y), (o_coord.x, o_coord.y), center_radius, 'black')
+                        dwg.add(dwg.line((s_coord.x, s_coord.y), (t_coord.x, t_coord.y), stroke="black"))
+
+
+        # dwg.add(dwg.circle(center=(center, center), r=(self.rows * cell_size), stroke=svgwrite.rgb(10, 10, 16, '%'), fill='none'))
+        dwg.save()
+
 def addArc(dwg, p0, p1, radius, color):
     """ Adds an arc that bulges to the right as it moves from p0 to p1 """
     # https://stackoverflow.com/questions/25019441/arc-pie-cut-in-svgwrite
@@ -173,3 +266,14 @@ def showCell(dwg, grid, cell, cell_size, center):
     angle = (cell.column + .5) * theta
     coords = polarToRect(center, radius, angle)
     dwg.add(dwg.circle(center=(coords.x, coords.y), r=(cell_size * .25), stroke=svgwrite.rgb(10, 10, 16, '%'), fill='red'))
+
+def has_corner(cell):
+    if len(cell.get_links()) != 2:
+        return False
+    if len(cell.outward) == 2:
+        return False
+    if cell.linked(cell.inward) and len(cell.outward) == 1 and cell.linked(cell.outward[0]):
+        return False
+    if cell.linked(cell.ccw) and cell.linked(cell.cw):
+        return False
+    return True

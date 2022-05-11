@@ -9,7 +9,6 @@ class Grid:
         self.grid = self.prepare_grid()
         self.configure_cells()
         self.end = []
-        self.path = []
 
     def prepare_grid(self):
         grid_array = []

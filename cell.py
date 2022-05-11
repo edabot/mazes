@@ -5,6 +5,7 @@ class Cell:
     def __init__(self, row, column):
         self.row, self.column = row, column
         self.links = {}
+        self.distance = 0
 
     def link(self, cell, bidi=True):
         self.links[cell] = True
@@ -21,6 +22,9 @@ class Cell:
 
     def get_links(self):
         return self.links.keys()
+
+    def get_links_full(self):
+        return self.links
 
     def linked(self, cell):
         if cell in self.links:
@@ -50,3 +54,6 @@ class Cell:
 
             frontier = new_frontier
         return distances
+
+    def set_distance(self, distance):
+        self.distance = distance
